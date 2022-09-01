@@ -2,9 +2,15 @@ package com.sia.tacocloud.data;
 
 
 import com.sia.tacocloud.TacoOrder;
+import org.springframework.data.repository.CrudRepository;
 
-public interface OrderRepository {
+import java.util.Date;
+import java.util.List;
 
-    TacoOrder save(TacoOrder tacoOrder);
+public interface OrderRepository extends CrudRepository<TacoOrder, String> {
+
+//    TacoOrder save(TacoOrder tacoOrder);
+
+    List<TacoOrder> findTacoOrderByDeliveryZipAndPlacedAtBetween(String zip, Date from, Date to);
 
 }

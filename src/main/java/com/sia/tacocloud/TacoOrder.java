@@ -2,8 +2,11 @@ package com.sia.tacocloud;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -13,12 +16,15 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@Entity
 public class TacoOrder implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
+    @Id
     private Long id;
-    private Date placedAt;
+
+    private Date placedAt = new Date();
 
     @NotBlank(message = "Name can't be empty")
     private String deliveryName;
@@ -40,6 +46,7 @@ public class TacoOrder implements Serializable {
     @Digits(integer=3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Taco> tacos = new ArrayList<>();
 
     public void addTaco(Taco taco) {
